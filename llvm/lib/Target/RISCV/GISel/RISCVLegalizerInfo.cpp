@@ -574,6 +574,10 @@ RISCVLegalizerInfo::RISCVLegalizerInfo(const RISCVSubtarget &ST)
   getActionDefinitionsBuilder({G_FCEIL, G_FFLOOR, G_FRINT, G_FNEARBYINT,
                                G_INTRINSIC_TRUNC, G_INTRINSIC_ROUND,
                                G_INTRINSIC_ROUNDEVEN})
+        
+      .legalFor(ST.hasStdExtZfa() & ST.hasStdExtD()  , {s64})
+      .legalFor(ST.hasStdExtZfa() & ST.hasStdExtZfh(), {s16})
+      .legalFor(ST.hasStdExtZfa() /*ST.hasStdExtF()*/, {s32})
       .libcallFor({s32, s64});
 
   getActionDefinitionsBuilder({G_FCOS, G_FSIN, G_FTAN, G_FPOW, G_FLOG, G_FLOG2,
